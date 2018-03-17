@@ -30,7 +30,11 @@ var client = new tmi.client(options);
 client.connect();
 
 client.on("chat", function(channel, userstate, message, self) {
-	if(self) return;
-    var response = chat_modules[0].chat(message, userstate);
-    client.say(channel, response);
+    if(self) return;
+    for(let [i, _module] of chat_modules.entries()) {
+        if(typeof _module.chat != "undefined") {
+            var response = _module.chat(message, userstate);
+            client.say(channel, response);
+        }
+    }
 });
