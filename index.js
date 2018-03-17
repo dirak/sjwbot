@@ -34,3 +34,5 @@ client.on("chat", function(channel, userstate, message, self) {
     var response = chat_modules[0].chat(message, userstate);
     client.say(channel, response);
 });
+
+//test comment that should probably be removed at some point
