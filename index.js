@@ -29,12 +29,22 @@ var client = new tmi.client(options);
 
 client.connect();
 
-client.on("chat", function(channel, userstate, message, self) {
+client.on("connected", (address, port) => {
+    for(let [i, _module] of chat_modules.entries()) {
+        if(typeof _module.init != "undefined") {
+            _module.init
+        }
+    }
+});
+
+client.on("chat", (channel, userstate, message, self) => {
     if(self) return;
     for(let [i, _module] of chat_modules.entries()) {
         if(typeof _module.chat != "undefined") {
             var response = _module.chat(message, userstate);
-            client.say(channel, response);
+            if(response) {
+                client.say(channel, response);
+            }
         }
     }
 });

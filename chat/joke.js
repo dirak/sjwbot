@@ -6,6 +6,7 @@ module.exports = {
 				var user = userstate['display-name'];
 				return `Did you hear about ${subject}, ${user}? It was destroyed.`;
 			}
+			return false;
 		}
 	}
 }
