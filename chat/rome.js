@@ -10,8 +10,10 @@ fs.readFile('./assets/rome.txt', 'utf8', (err, data) => {
 module.exports = {
 	chat : function(message, userstate) {
 		if(typeof message != "undefined" && typeof userstate != "undefined") {
-			var reason = rand(this.rome_data);
-			return `The decline of Rome was because of ${reason}`;
+			if(message.match(/^!rome(\s|$)/i)) {
+				var reason = rand(this.rome_data);
+				return `The decline of Rome was because of ${reason}`;
+			}
 		}
 		return false;
 	}
