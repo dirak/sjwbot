@@ -8,13 +8,12 @@ fs.readFile('./assets/rome.txt', 'utf8', (err, data) => {
 });
 
 module.exports = {
-	chat : function(message, userstate) {
+	chat : function(client, channel, message, userstate) {
 		if(typeof message != "undefined" && typeof userstate != "undefined") {
-			if(message.match(/^!rome(\s|$)/i)) {
+			if(message.match(/^!rome(\s+((?!\S)$)|$)/i)) {
 				var reason = rand(this.rome_data);
-				return `The decline of Rome was because of ${reason}`;
+				client.say(channel, `The decline of Rome was because of ${reason}`);
 			}
 		}
-		return false;
 	}
 }

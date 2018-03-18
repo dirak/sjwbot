@@ -41,10 +41,7 @@ client.on("chat", (channel, userstate, message, self) => {
     if(self) return;
     for(let [i, _module] of chat_modules.entries()) {
         if(typeof _module.chat != "undefined") {
-            var response = _module.chat(message, userstate);
-            if(response) {
-                client.say(channel, response);
-            }
+            var response = _module.chat(client, channel, message, userstate);
         }
     }
 });
