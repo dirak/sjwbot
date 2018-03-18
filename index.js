@@ -41,7 +41,8 @@ client.on("chat", (channel, userstate, message, self) => {
     if(self) return;
     for(let [i, _module] of chat_modules.entries()) {
         if(typeof _module.chat != "undefined") {
-            var response = _module.chat(client, channel, message, userstate);
+            //channel always comes across as #channel so we substring to remove the hash
+            var response = _module.chat(client, channel.substring(1), message, userstate);
         }
     }
 });

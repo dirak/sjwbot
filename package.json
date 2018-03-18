@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "fs": "0.0.1-security",
+    "https": "^1.0.0",
     "path": "^0.12.7",
     "random-item": "^1.0.0",
     "tmi.js": "^1.2.1"
