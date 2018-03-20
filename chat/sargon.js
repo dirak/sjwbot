@@ -31,7 +31,7 @@ module.exports = {
 								console.log(chunk_unit, chunk, chunk * chunk_unit);
 								sargons += chunk * chunk_unit;
 							}
-							client.say(channel, `The stream has been live for ${sargons.toFixed(2)} sargons ( ${body} )`);
+							client.modified_say(channel, `The stream has been live for ${sargons.toFixed(2)} sargons ( ${body} )`);
 						}
 					});
 				});

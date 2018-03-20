@@ -29,6 +29,8 @@ for(let [i, _channel] of Object.entries(config_channels)) {
     config_bot.channels.push(i);
 }
 
+console.log(excludes);
+
 //load the chat modules
 var normalized_path = path.join(__dirname, "chat");
 var chat_modules = []
@@ -43,9 +45,25 @@ var client = new tmi.client(options);
 
 client.connect();
 
+client.modified_say = function(channel, msg) {
+    channel = "#" + channel;
+    if(typeof includes[channel] != "undefined") {
+        var include_filter = chat_modules.filter(_module => includes[channel].includes(_module.name));
+    } else {
+        var include_filter = chat_modules;
+    }
+    var exclude_filter = include_filter.filter(_module => !excludes[channel].includes(_module.name));
+    for(let [i, _module] of exclude_filter.entries()) {
+        if(typeof _module.say != "undefined") {
+            msg = _module.say(msg);
+        }
+    }
+    client.say(channel, msg);
+}
+
 client.on("chat", (channel, userstate, message, self) => {
     if(self) return;
-    if(includes[channel].length != 0) {
+    if(typeof includes[channel] != "undefined") {
         var include_filter = chat_modules.filter(_module => includes[channel].includes(_module.name));
     } else {
         var include_filter = chat_modules;

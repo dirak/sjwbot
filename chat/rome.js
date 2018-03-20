@@ -13,7 +13,7 @@ module.exports = {
 		if(typeof message != "undefined" && typeof userstate != "undefined") {
 			if(message.match(/^!rome(\s+((?!\S)$)|$)/i)) {
 				var reason = rand(this.rome_data);
-				client.say(channel, `The decline of Rome was because of ${reason}`);
+				client.modified_say(channel, `The decline of Rome was because of ${reason}`);
 			}
 		}
 	}

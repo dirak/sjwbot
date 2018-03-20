@@ -1,6 +1,6 @@
 {
 	"#dirak_" : {
-		"include" : ["sargon-uptime", "joke", "rome"],
+		"include" : [],
 		"exclude" : ["rome"]
 	}
 }
