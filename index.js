@@ -12,6 +12,10 @@ var includes = {};
 for(let [i, _channel] of Object.entries(config_channels)) {
     if(typeof _channel.include != "undefined"
     && _channel.include.length > 0) {
+        includes[i] = [];
+        for(let include of _channel.include) {
+            includes[i].push(include);
+        }
         //we have specific chat modules to include, if none add all
     }
     if(typeof _channel.exclude != "undefined"
@@ -24,8 +28,6 @@ for(let [i, _channel] of Object.entries(config_channels)) {
     }
     config_bot.channels.push(i);
 }
-
-console.log(excludes);
 
 //load the chat modules
 var normalized_path = path.join(__dirname, "chat");
@@ -43,9 +45,14 @@ client.connect();
 
 client.on("chat", (channel, userstate, message, self) => {
     if(self) return;
-    console.log(excludes[channel]);
-    var test_filter = chat_modules.filter(_module => !excludes[channel].includes(_module.name));
-    for(let [i, _module] of test_filter.entries()) {
+    if(includes[channel].length != 0) {
+        var include_filter = chat_modules.filter(_module => includes[channel].includes(_module.name));
+    } else {
+        var include_filter = chat_modules;
+    }
+    var exclude_filter = include_filter.filter(_module => !excludes[channel].includes(_module.name));
+
+    for(let [i, _module] of exclude_filter.entries()) {
         if(typeof _module.chat != "undefined") {
             //channel always comes across as #channel so we substring to remove the hash
             var response = _module.chat(client, channel.substring(1), message, userstate);
