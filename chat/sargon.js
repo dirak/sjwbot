@@ -2,7 +2,7 @@ https = require('https');
 const SARGON_UNIT = 5.0;
 
 module.exports = {
-
+	name : "sargon-uptime",
 	chat : function(client, channel, message, userstate) {
 		if(typeof message != "undefined" && typeof userstate != "undefined") {
 			if(message.match(/^!uptime(\s+((?!\S)$)|$)/i)) {

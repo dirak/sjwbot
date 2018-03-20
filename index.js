@@ -6,20 +6,26 @@ var config_bot = JSON.parse(fs.readFileSync("./config/bot.json"));
 var config_channels = JSON.parse(fs.readFileSync("./config/channels.json"));
 config_bot.channels = [];
 
+var excludes = {};
+var includes = {};
+
 for(let [i, _channel] of Object.entries(config_channels)) {
-    console.log("test: ", i, _channel);
     if(typeof _channel.include != "undefined"
     && _channel.include.length > 0) {
         //we have specific chat modules to include, if none add all
     }
     if(typeof _channel.exclude != "undefined"
     && _channel.exclude.length > 0) {
+        excludes[i] = [];
+        for(let exclude of _channel.exclude) {
+            excludes[i].push(exclude);
+        }
         //we have specific chat modules to exclude, if none ignore
     }
     config_bot.channels.push(i);
 }
-var excludes = {};
-var includes = {};
+
+console.log(excludes);
 
 //load the chat modules
 var normalized_path = path.join(__dirname, "chat");
@@ -37,7 +43,9 @@ client.connect();
 
 client.on("chat", (channel, userstate, message, self) => {
     if(self) return;
-    for(let [i, _module] of chat_modules.entries()) {
+    console.log(excludes[channel]);
+    var test_filter = chat_modules.filter(_module => !excludes[channel].includes(_module.name));
+    for(let [i, _module] of test_filter.entries()) {
         if(typeof _module.chat != "undefined") {
             //channel always comes across as #channel so we substring to remove the hash
             var response = _module.chat(client, channel.substring(1), message, userstate);

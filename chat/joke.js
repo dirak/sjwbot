@@ -1,4 +1,5 @@
 module.exports = {
+	name : "joke",
 	chat : function(client, channel, message, userstate) {
 		if(typeof message != "undefined" && typeof userstate != "undefined") {
 			if(message.match(/^tell me a joke about/i) && !message.match(/(http|\.\S)/i)) {
