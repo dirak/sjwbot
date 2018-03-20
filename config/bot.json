@@ -1,0 +1,12 @@
+{
+	"options": {
+			"debug": true
+	},
+	"connection": {
+			"reconnect": true
+	},
+	"identity": {
+			"username": "sjwbot_debug",
+			"password": "oauth:bt2ppgkg94slg7gt64o1vxjlbbhp4r"
+	}
+}
