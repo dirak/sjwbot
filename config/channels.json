@@ -1,6 +1,6 @@
 {
-	"#dirak_" : {
+	"#sjwbot_debug" : {
 		"include" : [],
-		"exclude" : ["rome"]
+		"exclude" : []
 	}
 }
