@@ -36,3 +36,22 @@ exports.suffix = function(suffix) {
         return true;
     });
 }
+
+exports.infix = function(infix) {
+    return cmu_words.filter(word => {
+        let phones = word.phones;
+        if (phones.length < infix.length) {
+            return false;
+        }
+        outer_loop:
+        for (let i = 0; i <= phones.length - infix.length; i++) {
+            for (let j = 0; j < infix.length; j++) {
+                if (phones[i + j] !== infix[j]) {
+                    continue outer_loop;
+                }
+            }
+            return true;
+        }
+        return false;
+    });
+}
