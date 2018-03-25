@@ -1,5 +1,5 @@
 var rand = require("random-item");
-var rhymes = require("../rhymes.js");
+var rhymes = require("./rhymes.js");
 
 const CENSORED_JEN = [
     /^degenera[ct]/i, /^eugenic/i, /^genital/i, /^genocid/i,
@@ -111,7 +111,18 @@ const WORDS_SHAUN = rhymes.infix(["SH", "AH", "N"] /* "shaun" */).map(word => {
     }
     return word;
 });
-console.log(`shaun words (${WORDS_SHAUN.length}): ${WORDS_SHAUN.join(", ")}`);
+
+const CENSORED_PJW = [
+    /^cock$/i,
+    // there are lots of names ending with bach, it can become quite repetitive
+    /bach$/i
+];
+
+const WORDS_PJW = rhymes.suffix(["AA", "K"] /* "ock" in "shock" */).map(word => {
+    return word.word;
+}).filter(word => {
+    return !CENSORED_PJW.some(re => re.test(word));
+});
 
 exports.name = "shaun-jen";
 
@@ -123,6 +134,10 @@ exports.chat = function(client, channel, message, userstate) {
         command_jen(client, channel);
     } else if (message.match(/^!shaun\s*$/i)) {
         command_shaun(client, channel);
+    } else if(message.match(/^!pjw\s*$/i)) {
+        command_pjw(client, channel);
+    } else if(message.match(/^!pete\s*$/i)) {
+        command_pete(client, channel);
     }
 }
 
@@ -134,4 +149,13 @@ function command_jen(client, channel) {
 function command_shaun(client, channel) {
     let word = rand(WORDS_SHAUN);
     client.modified_say(channel, word);
+}
+
+function command_pjw(client, channel) {
+    let word = rand(WORDS_PJW);
+    client.modified_say(channel, `Imagine my ${word}`);
+}
+
+function command_pete(client, channel) {
+    client.modified_say(channel, `༼ ༎ຶ ෴ ༎ຶ༽`);
 }
